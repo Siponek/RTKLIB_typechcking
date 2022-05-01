@@ -1,0 +1,28 @@
+{
+  "version": "0.2.1",
+  "defaults": {},
+  "configurations": [
+    {
+      "type": "cppdbg",
+      "name": "rnx2rtkp.exe",
+      "project": "app\\rnx2rtkp\\msc\\Release\\rnx2rtkp.exe",
+      "projectTarget": "",
+      "cwd": "${workspaceRoot}",
+      "program": "${debugInfo.target}",
+      "MIMode": "gdb",
+      "miDebuggerPath": "${env.MINGW_PREFIX}\\bin\\gdb.exe",
+      "externalConsole": true
+    },
+    {
+      "cwd": "${workspaceRoot}",
+      "externalConsole": true,
+      "miDebuggerPath": "${env.MINGW_PREFIX}\\bin\\gdb.exe",
+      "MIMode": "gdb",
+      "name": "rnx2rtkp.exe(1)",
+      "program": "${debugInfo.target}",
+      "project": "app\\rnx2rtkp\\msc\\Release\\rnx2rtkp.exe",
+      "projectTarget": "",
+      "type": "cppdbg"
+    }
+  ]
+}

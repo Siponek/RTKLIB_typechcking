@@ -15,7 +15,7 @@
 *           2014/01/27  1.7 fix bug on default output time format
 *-----------------------------------------------------------------------------*/
 #include <stdarg.h>
-#include "rtklib.h"
+#include "C:\Users\szink\OneDrive\Pulpit\C C++\Gter\RTKLIB\src\rtklib.h"
 
 static const char rcsid[]="$Id: rnx2rtkp.c,v 1.1 2008/07/17 21:55:16 ttaka Exp $";
 
@@ -97,7 +97,9 @@ int main(int argc, char **argv)
     int i,j,n,ret;
     char *infile[MAXFILE],*outfile="";
     
+    printf("TESTUJEMY");
     prcopt.mode  =PMODE_KINEMA;
+
     prcopt.navsys=SYS_GPS|SYS_GLO;
     prcopt.refpos=1;
     prcopt.glomodear=1;

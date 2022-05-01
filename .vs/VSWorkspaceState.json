@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\app",
+    "\\app\\rnx2rtkp",
+    "\\app\\rnx2rtkp\\msc",
+    "\\app\\rnx2rtkp\\msc\\Release",
+    "\\test",
+    "\\test\\data",
+    "\\test\\data\\rinex",
+    "\\test\\utest"
+  ],
+  "SelectedNode": "\\app\\rnx2rtkp\\msc\\Release\\rnx2rtkp.exe",
+  "PreviewInSolutionExplorer": false
+}
