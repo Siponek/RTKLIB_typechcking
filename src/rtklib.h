@@ -27,6 +27,8 @@
 *-----------------------------------------------------------------------------*/
 #ifndef RTKLIB_H
 #define RTKLIB_H
+//#include <errno.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -471,7 +473,13 @@ extern "C" {
 #endif
 
 /* type definitions ----------------------------------------------------------*/
-
+//New Struct to send new data - Szymon 30/04/22
+/*
+typedef struct {
+    int gterInt;        // An INT
+    char* gterString;   // A string literal
+} gteropt_t;
+*/
 typedef struct {        /* time struct */
     time_t time;        /* time (s) expressed by standard time_t */
     double sec;         /* fraction of second under 1 s */
@@ -1018,6 +1026,9 @@ typedef struct {        /* processing options type */
     int  syncsol;       /* solution sync mode (0:off,1:on) */
     double odisp[2][6*11]; /* ocean tide loading parameters {rov,base} */
     exterr_t exterr;    /* extended receiver error model */
+    int gterInt; // Added INT value Szymon 30/04/22
+    //int gterInt; // Added INT value Szymon 30/04/22
+
 } prcopt_t;
 
 typedef struct {        /* solution options type */
@@ -1256,6 +1267,10 @@ extern const double chisqr[];           /* chi-sqr(n) table (alpha=0.001) */
 extern const double lam_carr[];         /* carrier wave length (m) {L1,L2,...} */
 extern const prcopt_t prcopt_default;   /* default positioning options */
 extern const solopt_t solopt_default;   /* default solution output options */
+
+// Added global exter variable for default values in new struct
+//extern const gteropt_t gteropt_DEFAULT;   /* default solution output options */
+
 extern const sbsigpband_t igpband1[][8]; /* SBAS IGP band 0-8 */
 extern const sbsigpband_t igpband2[][5]; /* SBAS IGP band 9-10 */
 extern const char *formatstrs[];        /* stream format strings */

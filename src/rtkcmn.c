@@ -133,6 +133,13 @@ const static double gpst0[]={1980,1, 6,0,0,0}; /* gps time reference */
 const static double gst0 []={1999,8,22,0,0,0}; /* galileo system time reference */
 const static double bdt0 []={2006,1, 1,0,0,0}; /* beidou time reference */
 
+/*
+const gteropt_t gteropt_DEFAULT = { //  defaults for new struct 
+    0,                              //  default 0 value
+    "yes"                           //  default value for hirable
+};
+*/
+
 static double leaps[MAXLEAPS+1][7]={ /* leap seconds (y,m,d,h,m,s,utc-gpst) */
     {2017,1,1,0,0,0,-18},
     {2015,7,1,0,0,0,-17},
@@ -187,7 +194,8 @@ const prcopt_t prcopt_default={ /* defaults processing options */
     30.0,30.0,30.0,             /* maxtdif,maxinno,maxgdop */
     {0},{0},{0},                /* baseline,ru,rb */
     {"",""},                    /* anttype */
-    {{0}},{{0}},{0}             /* antdel,pcv,exsats */
+    {{0}},{{0}},{0},            /* antdel,pcv,exsats */
+    0                           //A default INT for gterINT
 };
 const solopt_t solopt_default={ /* defaults solution output options */
     SOLF_LLH,TIMES_GPST,1,3,    /* posf,times,timef,timeu */

@@ -15,7 +15,8 @@
 *           2014/01/27  1.7 fix bug on default output time format
 *-----------------------------------------------------------------------------*/
 #include <stdarg.h>
-#include "C:\Users\szink\OneDrive\Pulpit\C C++\Gter\RTKLIB\src\rtklib.h"
+#include "..\..\src\rtklib.h"
+
 
 static const char rcsid[]="$Id: rnx2rtkp.c,v 1.1 2008/07/17 21:55:16 ttaka Exp $";
 
@@ -78,6 +79,72 @@ extern int showmsg(char *format, ...)
 }
 extern void settspan(gtime_t ts, gtime_t te) {}
 extern void settime(gtime_t time) {}
+void red()
+{
+    printf("\x1b[1;31m");
+}
+
+void yellow()
+{
+    printf("\033[1;33m");
+}
+
+void reset()
+{
+    fflush(stdin);
+    printf("\x1b[0m");
+    fflush(stdout);
+}
+
+int recruitmentTask(prcopt_t prcoptToBeCheck)
+{
+    int checkingVarType_INT = _Generic(prcoptToBeCheck.gterInt, int : 1, char* : 2, float : 3, default: 0);
+    if (checkingVarType_INT == 1)
+    {
+        yellow();
+        printf("\n\nprcopt.gterInt is an INT :>\n");
+
+        if ((0 <= prcoptToBeCheck.gterInt && prcoptToBeCheck.gterInt <= 10))
+        {
+            printf("\nAdded param prcopt.gterInt_> %d is in range (0<->10)\n\n", prcoptToBeCheck.gterInt);
+            reset();
+            return 1;
+        }
+        else
+        {
+            red();
+            printf("\nAdded param prcopt.gterInt_> %d is OUT OF RANGE, should be (0->10)\n\n", prcoptToBeCheck.gterInt);
+            reset();
+            //perror("Throwing an exception. OUT OF RANGE");
+            return -200;
+        }
+    }
+    else if (checkingVarType_INT == 2)
+    {
+        red();
+        printf("\nprcopt.gterInt is an STRING :|\n");
+        reset();
+        //perror("Throwing an exception. Param not an INT");
+        return -201;
+    }
+    else if (checkingVarType_INT == 3)
+    {
+        red();
+        printf("\nprcopt.gterInt is an FLOAT :|\n");
+        reset();
+        //perror("Throwing an exception. Param not an INT");
+        return -202;
+    }
+    else
+    {
+        red();
+        showmsg("\nerror : parameter is not an INT but something else! :<");
+        reset();
+        //perror("Throwing an exception. Param not an INT");
+        return -203;
+    }
+}
+
 
 /* print help ----------------------------------------------------------------*/
 static void printhelp(void)
@@ -92,12 +159,15 @@ int main(int argc, char **argv)
     prcopt_t prcopt=prcopt_default;
     solopt_t solopt=solopt_default;
     filopt_t filopt={""};
+    //gteropt_t gteropt = gteropt_DEFAULT;
+
+
     gtime_t ts={0},te={0};
     double tint=0.0,es[]={2000,1,1,0,0,0},ee[]={2000,12,31,23,59,59},pos[3];
     int i,j,n,ret;
+    int result;
     char *infile[MAXFILE],*outfile="";
-    
-    printf("TESTUJEMY");
+
     prcopt.mode  =PMODE_KINEMA;
 
     prcopt.navsys=SYS_GPS|SYS_GLO;
@@ -128,7 +198,12 @@ int main(int argc, char **argv)
             te=epoch2time(ee);
         }
         else if (!strcmp(argv[i],"-ti")&&i+1<argc) tint=atof(argv[++i]);
-        else if (!strcmp(argv[i],"-k")&&i+1<argc) {++i; continue;}
+        else if (!strcmp(argv[i], "-k") && i + 1 < argc)
+        {
+            ++i;
+            //n++;
+            continue; 
+        } //BUG {n} does not increment?
         else if (!strcmp(argv[i],"-p")&&i+1<argc) prcopt.mode=atoi(argv[++i]);
         else if (!strcmp(argv[i],"-f")&&i+1<argc) prcopt.nf=atoi(argv[++i]);
         else if (!strcmp(argv[i],"-m")&&i+1<argc) prcopt.elmin=atof(argv[++i])*D2R;
@@ -160,12 +235,28 @@ int main(int argc, char **argv)
         else if (*argv[i]=='-') printhelp();
         else if (n<MAXFILE) infile[n++]=argv[i];
     }
+
+    printf("\nThis is argument count argc :%d\n", argc);
+    printf("These are argument vector possitions argv :");
+
+    for (i = 0; i < argc; i++) {
+        printf(argv[i]);
+    }
+    //  Added by Szymon
+    //  Checking for TYPE, need standard C11 at least
+    //  it does check struct prcopt implementation parameter in rtklib.h setting only
+    result = recruitmentTask(prcopt);
+    if (result < 0)
+    {
+        printf("\nError concerning parameter. Exting...\n");
+        return result;
+    }
+
     if (n<=0) {
         showmsg("error : no input file");
         return -2;
     }
-    ret=postpos(ts,te,tint,0.0,&prcopt,&solopt,&filopt,infile,n,outfile,"","");
-    
+    ret=postpos(ts,te,tint,0.0,&prcopt,&solopt,&filopt,infile,n,outfile,"",""); 
     if (!ret) fprintf(stderr,"%40s\r","");
     return ret;
 }
