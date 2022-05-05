@@ -96,7 +96,7 @@ void reset()
     fflush(stdout);
 }
 
-int recruitmentTask(prcopt_t prcoptToBeCheck)
+int checkingTheType(prcopt_t prcoptToBeCheck)
 {
     int checkingVarType_INT = _Generic(prcoptToBeCheck.gterInt, int : 1, char* : 2, float : 3, default: 0);
     if (checkingVarType_INT == 1)
@@ -245,7 +245,7 @@ int main(int argc, char **argv)
     //  Added by Szymon
     //  Checking for TYPE, need standard C11 at least
     //  it does check struct prcopt implementation parameter in rtklib.h setting only
-    result = recruitmentTask(prcopt);
+    result = checkingTheType(prcopt);
     if (result < 0)
     {
         printf("\nError concerning parameter. Exting...\n");
